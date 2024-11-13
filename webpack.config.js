@@ -2,6 +2,7 @@ const path = require('path'); // подключаем path к конфигу в�
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // подключили плагин
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { watch } = require('fs');
 
 module.exports = {
   entry: { main: './src/scripts/index.js' }, //поменять путь при разработке проекта
@@ -15,7 +16,8 @@ module.exports = {
     static: path.resolve(__dirname, './dist'), // путь, куда "смотрит" режим разработчика
     compress: true, // это ускорит загрузку в режиме разработки
     port: 8080, // порт, чтобы открывать сайт по адресу localhost:8080, но можно поменять порт
-    open: true // сайт будет открываться сам при запуске npm run dev
+    open: true, // сайт будет открываться сам при запуске npm run dev
+    watchFiles: ['src/index.html'],
   },
   module: {
     rules: [ // rules — это массив правил
@@ -29,7 +31,7 @@ module.exports = {
       {
         // регулярное выражение, которое ищет все файлы с такими расширениями
         test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
-        type: 'asset/resource' 
+        type: 'asset/resource'
       },
       {
         // применять это правило только к CSS-файлам
