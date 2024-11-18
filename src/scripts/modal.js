@@ -3,20 +3,31 @@
 // Функция открытия модального окна
 function openModal(nameModal) {
   nameModal.classList.add('popup_is-opened');
-  document.addEventListener('click', closeModal);
-  document.addEventListener('keydown', closeModal);
+  document.addEventListener('keydown', escHandler);
+  document.addEventListener('click', clickHandler);
 };
 
 // Функция закрытия модального окна
-function closeModal(evt) {
-  const openedModal = document.querySelector('.popup_is-opened');
-  if (!openedModal) return;
-
-  if (evt.target.classList.contains('popup__close') || evt.target.classList.contains('popup') || evt.key === 'Escape') {
-    openedModal.classList.remove('popup_is-opened');
-    document.removeEventListener('click', closeModal);
-    document.removeEventListener('keydown', closeModal);
-  };
+function closeModal(nameModal) {
+  nameModal.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', escHandler);
+  document.removeEventListener('click', clickHandler);
 };
 
-export { openModal, closeModal };
+// Функция-обработчик события нажатия Esc
+function escHandler(evt) {
+  if (evt.key === 'Escape') {
+    const openedModal = document.querySelector('.popup_is-opened');
+    closeModal(openedModal);
+  }
+};
+
+// Функция-обработчик события клика
+function clickHandler(evt) {
+  if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
+    const openedModal = document.querySelector('.popup_is-opened');
+    closeModal(openedModal);
+  }
+};
+
+export { openModal, closeModal, escHandler };
