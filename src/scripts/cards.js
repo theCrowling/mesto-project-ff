@@ -33,8 +33,8 @@ const cardTemplate = document.querySelector('#card-template').content;
 // Функция создания карточки
 function createCard(content, deleteCallback, likeCallback, modalCallback) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  const deleteButton = cardElement.querySelector('.card__delete-button');
   const cardImage = cardElement.querySelector('.card__image');
+  const deleteButton = cardElement.querySelector('.card__delete-button');
   const likeButton = cardElement.querySelector('.card__like-button');
   cardElement.querySelector('.card__title').textContent = content.name;
   cardImage.src = content.link;

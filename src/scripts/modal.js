@@ -30,4 +30,4 @@ function clickHandler(evt) {
   }
 };
 
-export { openModal, closeModal, escHandler };
+export { openModal, closeModal };
