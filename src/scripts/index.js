@@ -1,6 +1,7 @@
 // Импорт функций
 import '../pages/index.css';
-import {initialCards, createCard, deleteCard, likeCard} from './cards.js';
+import {initialCards} from './cards.js';
+import {createCard, deleteCard, likeCard} from './card.js';
 import {openModal, closeModal} from './modal.js';
 
 //Тут описана инициализация приложения и основная логика страницы: поиск DOM-элементов на странице и навешивание на них обработчиков событий; обработчики отправки форм, функция-обработчик события открытия модального окна для редактирования профиля; функция открытия модального окна изображения карточки.
@@ -13,6 +14,8 @@ const profileAddButton = document.querySelector('.profile__add-button');
 const modalEdit = document.querySelector('.popup_type_edit');
 const modalAdd = document.querySelector('.popup_type_new-card');
 const modalImage = document.querySelector('.popup_type_image');
+const modalCardImage = document.querySelector('.popup__image');
+const modalCardTitle = document.querySelector('.popup__caption');
 
 // Слушатели для модального окна
 profileEditButton.addEventListener('click', () => openModal(modalEdit));
@@ -37,8 +40,7 @@ function handleEditFormSubmit(evt) {
   const newJob = editFormElement.elements.description.value;
   nameInput.textContent = newName;
   jobInput.textContent = newJob;
-  const openedModal = document.querySelector('.popup_is-opened');
-  closeModal(openedModal)
+  closeModal(modalEdit);
 };
 
 // Функция-обработчик события открытия модального окна для добавления новой карточки
@@ -47,16 +49,15 @@ function handleAddFormSubmit(evt) {
   const newPlace = addFormElement.elements['place-name'].value;
   const newLink = addFormElement.elements['link'].value;
   cardsContainer.prepend(createCard({name: newPlace, link: newLink}, deleteCard, likeCard, () => openModalImage({name: newPlace, link: newLink})));
-  const openedModal = document.querySelector('.popup_is-opened');
-  closeModal(openedModal)
+  closeModal(modalAdd);
   addFormElement.reset();
 };
 
 // Функция открытия модального окна изображения карточки
 function openModalImage(card) {
-  modalImage.querySelector('.popup__image').src = card.link;
-  modalImage.querySelector('.popup__image').alt = card.name;
-  modalImage.querySelector('.popup__caption').textContent = card.name;
+  modalCardImage.src = card.link;
+  modalCardImage.alt = card.name;
+  modalCardTitle.textContent = card.name;
   openModal(modalImage);
 }
 
