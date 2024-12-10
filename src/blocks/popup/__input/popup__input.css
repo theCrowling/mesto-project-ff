@@ -1,13 +1,13 @@
 .popup__input {
   width: 100%;
-  height: 47px;
+  height: 36px;
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   font-size: 14px;
   line-height: 18px;
   box-sizing: border-box;
-  padding: 10px 5px 0;
-  margin-bottom: 10px;
+  padding: 5px 5px 0;
+  margin-bottom: 5px;
 }
 
 .popup__input_type_error {
@@ -15,13 +15,11 @@
 }
 
 .popup__input-error {
+  display: block;
+  min-height: 30px;
   font-size: 12px;
   line-height: 1.2;
   color: rgba(255, 0, 0, 1);
-}
-
-.popup__input:last-of-type {
-  margin-bottom: 0;
 }
 
 @media screen and (max-width: 568px) {

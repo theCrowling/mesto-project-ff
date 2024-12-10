@@ -4,14 +4,14 @@
 function openModal(nameModal) {
   nameModal.classList.add('popup_is-opened');
   document.addEventListener('keydown', escHandler);
-  document.addEventListener('click', clickHandler);
+  document.addEventListener('mousedown', clickHandler);
 };
 
 // Функция закрытия модального окна
 function closeModal(nameModal) {
   nameModal.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', escHandler);
-  document.removeEventListener('click', clickHandler);
+  document.removeEventListener('mousedown', clickHandler);
 };
 
 // Функция-обработчик события нажатия Esc
