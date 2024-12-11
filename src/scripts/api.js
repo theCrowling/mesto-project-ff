@@ -49,10 +49,7 @@ function sendUserData(userData) {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
-    body: JSON.stringify({
-      name: userData.name,
-      about: userData.about
-    })
+    body: JSON.stringify(userData)
   })
     .then(handleResponse)
     .catch((err) => {

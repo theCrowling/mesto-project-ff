@@ -30,7 +30,7 @@ const modalAdd = document.querySelector('.popup_type_new-card');
 const modalImage = document.querySelector('.popup_type_image');
 const modalCardImage = document.querySelector('.popup__image');
 const modalCardTitle = document.querySelector('.popup__caption');
-const modalEditAvatar = document.querySelector('.popup_type_edit-avatar');
+const modalAvatar = document.querySelector('.popup_type_edit-avatar');
 // Форма редактирования профиля
 const editFormElement = document.forms['edit-profile'];
 const nameInput = document.querySelector('.profile__title');
@@ -70,7 +70,7 @@ function handleAddButtonClick() {
 function handleAvatarButtonClick() {
   avatarInput.value = '';
   clearValidation(avatarFormElement, validationConfig);
-  openModal(modalEditAvatar)
+  openModal(modalAvatar)
 };
 
 // Функция открытия модального окна изображения карточки
@@ -86,18 +86,42 @@ editFormElement.addEventListener('submit', handleEditFormSubmit);
 addFormElement.addEventListener('submit', handleAddFormSubmit);
 avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 
+// Функция изменения текста кнопки
+function changeButtonText(form) {
+  const modalButton = form.querySelector('.popup__button');
+  if (modalButton.textContent === 'Сохранить') {
+    modalButton.textContent = 'Сохранение...';
+  } else {
+    modalButton.textContent = 'Сохранить'
+  }
+};
+
 // Функция-обработчик события submit для окна редактирования профиля
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  nameInput.textContent = newName.value;
-  jobInput.textContent = newJob.value;
-  sendUserData({name: newName.value, about: newJob.value});
-  closeModal(modalEdit);
+  changeButtonText(editFormElement);
+  const userNewData = {
+    name: newName.value,
+    about: newJob.value
+  };
+  sendUserData(userNewData)
+    .then((data) => {
+      nameInput.textContent = data.name;
+      jobInput.textContent = data.about;
+      closeModal(modalEdit);
+    })
+    .catch((err) => {
+      console.error('Ошбика при отправке формы:', err);
+    })
+    .finally(() => {
+      changeButtonText(editFormElement);
+    })
 };
 
 // Функция-обработчик события submit для окна добавления новой карточки
 function handleAddFormSubmit(evt) {
   evt.preventDefault();
+  changeButtonText(addFormElement);
   const newPlace = addFormElement.elements['place-name'].value;
   const newLink = addFormElement.elements['link'].value;
   const cardData = {
@@ -108,32 +132,38 @@ function handleAddFormSubmit(evt) {
   // Добавление карточки на сервер и получение данных карточки с сервера
   addNewCard(cardData)
     .then((serverCardData) => {
-      // console.log('Ответ от сервера:', serverCardData);
       const serverCardElement = createCard(serverCardData, serverCardData.owner, deleteCard, likeCard, () => openModalImage(serverCardData));
       cardsContainer.prepend(serverCardElement);
+      closeModal(modalAdd);
+      addFormElement.reset();
     })
     .catch((err) => {
       console.error('Ошбика при добавлении карточки:', err);
-    });
-  closeModal(modalAdd);
-  addFormElement.reset();
+    })
+    .finally(() => {
+      changeButtonText(addFormElement);
+    })
 };
 
 // Функция-обработчик события submit для окна редактирования аватара
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
+  changeButtonText(avatarFormElement);
   const newAvatar = avatarFormElement.elements['avatar'].value;
-  profileAvatar.style.backgroundImage = `url(${newAvatar})`;
-  changeAvatar(newAvatar);
-  closeModal(modalEditAvatar);
+  changeAvatar(newAvatar)
+    .then((data) => {
+      profileAvatar.style.backgroundImage = `url(${data.avatar})`;
+      closeModal(modalAvatar);
+    })
+    .catch((err) => {
+      console.error('Ошбика при отправке формы:', err);
+    })
+    .finally(() => {
+      changeButtonText(avatarFormElement);
+    })
 };
 
-// Вывод карточек на страницу
-// initialCards.forEach(function (card) {
-//   cardsContainer.append(createCard(card, deleteCard, likeCard, openModalImage));
-// });
-
-// Включение валидации, все настройки передаются объектом конфигурации
+// Включение валидации, настройки передаются объектом конфигурации
 enableValidation(validationConfig);
 
 // Получение карточек и данных пользователя с сервера
