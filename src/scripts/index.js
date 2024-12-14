@@ -1,10 +1,9 @@
 // Импорт функций
 import '../pages/index.css';
-// import {initialCards} from './cards.js';
-import {createCard, deleteCard, likeCard} from './card.js';
+import {createCard} from './card.js';
 import {openModal, closeModal} from './modal.js';
 import {enableValidation, clearValidation} from './validation.js';
-import {getUserData, getCards, sendUserData, addNewCard, changeAvatar} from './api.js';
+import {getUserData, getCards, sendUserData, addNewCard, changeAvatar, deleteCardId, likeCardId, unlikeCardId} from './api.js';
 // Конфигурация валидации форм
 const validationConfig = {
   formSelector: '.popup__form',
@@ -14,6 +13,8 @@ const validationConfig = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active'
 };
+// Включение валидации по объекту конфигурации
+enableValidation(validationConfig);
 
 //Тут описана инициализация приложения и основная логика страницы: поиск DOM-элементов на странице и навешивание на них обработчиков событий; обработчики отправки форм, функция-обработчик события открытия модального окна для редактирования профиля; функция открытия модального окна изображения карточки.
 
@@ -81,11 +82,6 @@ function openModalImage(card) {
   openModal(modalImage);
 };
 
-// Слушатели отправки форм
-editFormElement.addEventListener('submit', handleEditFormSubmit);
-addFormElement.addEventListener('submit', handleAddFormSubmit);
-avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
-
 // Функция изменения текста кнопки
 function changeButtonText(form) {
   const modalButton = form.querySelector('.popup__button');
@@ -95,6 +91,39 @@ function changeButtonText(form) {
     modalButton.textContent = 'Сохранить'
   }
 };
+
+// Функция удаления карточки
+function deleteCard(cardId, card) {
+  deleteCardId(cardId)
+    .then(() => {
+      card.remove();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+// Функция лайка карточки
+function likeCard(cardId, card) {
+  if (card.classList.contains('card__like-button_is-active')) {
+    unlikeCardId(cardId)
+      .then((res) => {
+        card.nextElementSibling.textContent = res.likes.length
+        card.classList.toggle('card__like-button_is-active');
+  })
+  } else {
+    likeCardId(cardId)
+      .then((res) => {
+        card.nextElementSibling.textContent = res.likes.length
+        card.classList.toggle('card__like-button_is-active');
+      })
+  }
+};
+
+// Слушатели отправки форм
+editFormElement.addEventListener('submit', handleEditFormSubmit);
+addFormElement.addEventListener('submit', handleAddFormSubmit);
+avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 
 // Функция-обработчик события submit для окна редактирования профиля
 function handleEditFormSubmit(evt) {
@@ -122,17 +151,15 @@ function handleEditFormSubmit(evt) {
 function handleAddFormSubmit(evt) {
   evt.preventDefault();
   changeButtonText(addFormElement);
-  const newPlace = addFormElement.elements['place-name'].value;
-  const newLink = addFormElement.elements['link'].value;
   const cardData = {
-    name: newPlace,
-    link: newLink,
+    name: newPlace.value,
+    link: newLink.value,
     likes: [],
   };
   // Добавление карточки на сервер и получение данных карточки с сервера
   addNewCard(cardData)
     .then((serverCardData) => {
-      const serverCardElement = createCard(serverCardData, serverCardData.owner, deleteCard, likeCard, () => openModalImage(serverCardData));
+      const serverCardElement = createCard(serverCardData, serverCardData.owner, deleteCard, likeCard, openModalImage);
       cardsContainer.prepend(serverCardElement);
       closeModal(modalAdd);
       addFormElement.reset();
@@ -149,7 +176,7 @@ function handleAddFormSubmit(evt) {
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
   changeButtonText(avatarFormElement);
-  const newAvatar = avatarFormElement.elements['avatar'].value;
+  const newAvatar = avatarInput.value;
   changeAvatar(newAvatar)
     .then((data) => {
       profileAvatar.style.backgroundImage = `url(${data.avatar})`;
@@ -162,9 +189,6 @@ function handleAvatarFormSubmit(evt) {
       changeButtonText(avatarFormElement);
     })
 };
-
-// Включение валидации, настройки передаются объектом конфигурации
-enableValidation(validationConfig);
 
 // Получение карточек и данных пользователя с сервера
 Promise.all([getCards(), getUserData()])
