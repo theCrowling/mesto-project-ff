@@ -1,6 +1,6 @@
 // Импорт функций
 import '../pages/index.css';
-import {createCard} from './card.js';
+import {createCard, deleteCard, likeCard} from './card.js';
 import {openModal, closeModal} from './modal.js';
 import {enableValidation, clearValidation} from './validation.js';
 import {getUserData, getCards, sendUserData, addNewCard, changeAvatar, deleteCardId, likeCardId, unlikeCardId} from './api.js';
@@ -92,34 +92,6 @@ function changeButtonText(form) {
   }
 };
 
-// Функция удаления карточки
-function deleteCard(cardId, card) {
-  deleteCardId(cardId)
-    .then(() => {
-      card.remove();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
-// Функция лайка карточки
-function likeCard(cardId, card) {
-  if (card.classList.contains('card__like-button_is-active')) {
-    unlikeCardId(cardId)
-      .then((res) => {
-        card.nextElementSibling.textContent = res.likes.length
-        card.classList.toggle('card__like-button_is-active');
-  })
-  } else {
-    likeCardId(cardId)
-      .then((res) => {
-        card.nextElementSibling.textContent = res.likes.length
-        card.classList.toggle('card__like-button_is-active');
-      })
-  }
-};
-
 // Слушатели отправки форм
 editFormElement.addEventListener('submit', handleEditFormSubmit);
 addFormElement.addEventListener('submit', handleAddFormSubmit);
@@ -183,7 +155,7 @@ function handleAvatarFormSubmit(evt) {
       closeModal(modalAvatar);
     })
     .catch((err) => {
-      console.error('Ошбика при отправке формы:', err);
+      console.error('Ошбика при изменении аватара:', err);
     })
     .finally(() => {
       changeButtonText(avatarFormElement);
@@ -199,7 +171,7 @@ Promise.all([getCards(), getUserData()])
     profileAvatar.style.backgroundImage = `url(${user.avatar})`;
   })
   .catch((err) => {
-    console.log(err);
+    console.error('Ошбика при получении данных сервера:', err);
   });
 
 // Вывод карточек на страницу

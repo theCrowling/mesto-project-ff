@@ -28,9 +28,6 @@ function getUserData() {
     headers: config.headers
   })
     .then(handleResponse)
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
 // Функция получения карточек с сервера
@@ -39,9 +36,6 @@ function getCards() {
     headers: config.headers
   })
     .then(handleResponse)
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
 // Функция отправки данных пользователя на сервер
@@ -52,9 +46,6 @@ function sendUserData(userData) {
     body: JSON.stringify(userData)
   })
     .then(handleResponse)
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
 // Функция отправки новой карточки на сервер
@@ -65,9 +56,6 @@ function addNewCard(cardData) {
     body: JSON.stringify(cardData)
   })
     .then(handleResponse)
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
 // Функция удаления карточки с сервера
@@ -77,9 +65,6 @@ function deleteCardId(cardId) {
     headers: config.headers,
   })
     .then(handleResponse)
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
 // Функция лайка карточки
@@ -89,9 +74,6 @@ function likeCardId(cardId) {
     headers: config.headers,
   })
     .then(handleResponse)
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
 // Функция удаления лайка с карточки
@@ -101,9 +83,6 @@ function unlikeCardId(cardId) {
     headers: config.headers,
   })
     .then(handleResponse)
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
 // Функция изменения аватара пользователя
@@ -116,9 +95,6 @@ function changeAvatar(avatarLink) {
     })
   })
     .then(handleResponse)
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
 export {
