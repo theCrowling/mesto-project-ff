@@ -30,7 +30,7 @@ module.exports = {
       // добавили правило для обработки файлов
       {
         // регулярное выражение, которое ищет все файлы с такими расширениями
-        test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+        test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf|ico)$/,
         type: 'asset/resource'
       },
       {
@@ -50,7 +50,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html' // путь к файлу index.html
+      template: './src/index.html', // путь к файлу index.html
+      favicon: './src/images/favicon.ico',
     }),
     new CleanWebpackPlugin(), // использовали плагин
     new MiniCssExtractPlugin(),

@@ -100,6 +100,13 @@
       <button type="button" class="popup__close"></button>
       <img src="" alt="" class="popup__image">
       <p class="popup__caption"></p>
+      <div class="popup__author-container">
+        <div class="popup_type_image-avatar" style="background-image: url(<%=require('./images/avatar.jpg')%>)"></div>
+        <div class="popup__author-name-container">
+          <span class="popup_type_image-author"></span>
+          <span class="popup_type_image-timer"></span>
+        </div>
+      </div>
     </div>
   </div>
   <div class="popup popup_type_edit-avatar popup_is-animated">
@@ -116,6 +123,15 @@
         required>
         <span class="popup__input-error avatar-input-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_type_delete-card popup_is-animated">
+    <div class="popup__content">
+      <button type="button" class="popup__close"></button>
+      <h3 class="popup__title">Вы уверены?</h3>
+      <form class="popup__form" name="delete-card" novalidate>
+        <button type="submit" class="button popup__button">Да</button>
       </form>
     </div>
   </div>

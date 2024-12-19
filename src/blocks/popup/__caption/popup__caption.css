@@ -1,9 +1,85 @@
 .popup__caption {
-  font-size: 12px;
-  line-height: 15px;
-  color: #fff;
   position: absolute;
-  left: 0;
   top: calc(100% + 10px);
+  left: 0;
+  width: -webkit-fill-available;
+  width: -moz-available;
   margin: 0;
+  border-radius: 10px 10px 0 0;
+  padding: 10px;
+  color: #000;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  background-color: #fff;
+}
+
+.popup__author-container {
+  position: absolute;
+  top: calc(100% + 44px);
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.popup_type_image-avatar {
+  width: 45px;
+  height: 45px;
+  margin: 0 10px 0 0;
+  border-radius: 50%;
+  background-position: 50%;
+  background-size: cover;
+}
+
+.popup__author-name-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup_type_image-author {
+  color: #000;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.popup_type_image-timer {
+  color: #000000bb;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+@media screen and (max-width: 568px) {
+  .popup__caption {
+    border-radius: 10px 10px 0 0;
+    padding: 5px;
+    font-size: 20px;
+  }
+
+  .popup__author-container {
+    top: calc(100% + 39px);
+    border-radius: 0 0 10px 10px;
+    padding: 5px;
+  }
+
+  .popup_type_image-avatar {
+    width: 35px;
+    height: 35px;
+    margin: 0 10px 0 0;
+  }
+
+  .popup_type_image-author {
+    font-size: 14px;
+  }
+
+  .popup_type_image-timer {
+    color: #000000bb;
+    font-size: 11px;
+  }
 }

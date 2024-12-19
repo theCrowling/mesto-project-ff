@@ -2,6 +2,11 @@
   height: 282px;
   object-fit: cover;
   width: 100%;
+  min-height: 282px;
+  min-width: 282px;
+  background: url(/src/images/i.png);
+  background-size: cover;
+  background-position: center;
 }
 
 .card__image:hover {
