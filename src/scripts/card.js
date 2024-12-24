@@ -46,7 +46,10 @@ function createCard(content, user, likeCallback, modalImageCallback, modalDelete
 
 // Функция удаления карточки
 function deleteCard(cardElement) {
-  cardElement.remove();
+  cardElement.classList.add('card-animate-remove');
+  cardElement.addEventListener('animationend', () => { // Удаляем карточку только после анимации
+    cardElement.remove();
+  });
 };
 
 // Функция лайка карточки

@@ -178,8 +178,9 @@ function handleAddFormSubmit(evt) {
   addNewCard(cardData)
     .then((serverCardData) => {
       const serverCardElement = createCard(serverCardData, serverCardData.owner, handleLikeCard, openModalImage, openModalDelete);
-      cardsContainer.prepend(serverCardElement);
       closeModal(modalTypeAdd);
+      serverCardElement.classList.add('card-animate-add');
+      cardsContainer.prepend(serverCardElement);
       addFormElement.reset();
     })
     .catch((err) => {
